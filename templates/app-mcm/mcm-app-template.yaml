@@ -29,24 +29,6 @@ spec:
       app: #APP_NAME
 ---
 apiVersion: app.ibm.com/v1alpha1
-kind: Subscription
-metadata:
-  name: #APP_NAME
-  namespace: #NAMESPACE
-  generation: 1
-  labels:
-    app: #APP_NAME
-spec:
-  name: #APP_NAME
-  channel: #NAMESPACE/helm-repo-artifactory
-  packageFilter:
-    version: #VERSION
-  placement:
-    placementRef:
-      name: #APP_NAME-rule
-      kind: PlacementRule
----
-apiVersion: app.ibm.com/v1alpha1
 kind: PlacementRule
 metadata:
   name: #APP_NAME-rule
@@ -59,3 +41,58 @@ spec:
   clusterLabels:
     matchLabels:
       name: #CLUSTER
+
+---
+apiVersion: app.ibm.com/v1alpha1
+kind: Subscription
+metadata:
+  name: #APP_NAME-ui
+  namespace: #NAMESPACE
+  generation: 1
+  labels:
+    app: #APP_NAME
+spec:
+  name: inventory-management-ui
+  channel: #NAMESPACE/helm-repo-artifactory
+  packageFilter:
+    version: 0.0.3
+  placement:
+    placementRef:
+      name: #APP_NAME-rule
+      kind: PlacementRule
+---
+apiVersion: app.ibm.com/v1alpha1
+kind: Subscription
+metadata:
+  name: #APP_NAME-bff
+  namespace: #NAMESPACE
+  generation: 1
+  labels:
+    app: #APP_NAME
+spec:
+  name: inventory-management-bff
+  channel: #NAMESPACE/helm-repo-artifactory
+  packageFilter:
+    version: 0.0.4
+  placement:
+    placementRef:
+      name: #APP_NAME-rule
+      kind: PlacementRule
+---
+apiVersion: app.ibm.com/v1alpha1
+kind: Subscription
+metadata:
+  name: #APP_NAME-svc
+  namespace: #NAMESPACE
+  generation: 1
+  labels:
+    app: #APP_NAME
+spec:
+  name: inventory-svc
+  channel: #NAMESPACE/helm-repo-artifactory
+  packageFilter:
+    version: 0.0.1
+  placement:
+    placementRef:
+      name: #APP_NAME-rule
+      kind: PlacementRule
